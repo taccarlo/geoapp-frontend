@@ -9,11 +9,12 @@ const districtReducer = (state = initialState, { type, payload }) => {
     case SET_DISTRICTS:
       return {
         ...state,
-        districts: [...state.districts, ...payload],
+        districts: [...payload],
       }
 
     default:
       return state
   }
 }
+
 export default districtReducer

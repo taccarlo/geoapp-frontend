@@ -3,12 +3,7 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { setMapView, fetchDistricts } from '../../redux/actions'
 
-export const DistrictList = ({
-  districts,
-  setMapView,
-  fetchDistricts,
-  history,
-}) => {
+const DistrictList = ({ districts, setMapView, fetchDistricts, history }) => {
   useEffect(() => {
     fetchDistricts()
   }, [fetchDistricts])
