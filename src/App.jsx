@@ -9,10 +9,11 @@ import {
   IonTabs,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import { mapOutline, home } from 'ionicons/icons'
+import { mapOutline, home, list } from 'ionicons/icons'
 
 import Map from './pages/map/Map'
 import DistrictList from './pages/district/DistrictList'
+import CategoryList from './pages/category/CategoryList'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -39,6 +40,7 @@ function App() {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
+            <Route path="/categories" component={CategoryList} />
             <Route path="/districts" component={DistrictList} />
             <Route path="/map" component={Map} />
             <Route exact path="/" render={() => <Redirect to="/map" />} />
@@ -52,6 +54,10 @@ function App() {
             <IonTabButton tab="districts" href="/districts">
               <IonIcon icon={home} />
               <IonLabel>Districts</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="categories" href="/categories">
+              <IonIcon icon={list} />
+              <IonLabel>Categories</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
