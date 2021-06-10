@@ -1,0 +1,1 @@
+export { setMapView } from './map'

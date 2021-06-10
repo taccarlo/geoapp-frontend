@@ -12,6 +12,7 @@ import { IonReactRouter } from '@ionic/react-router'
 import { mapOutline, home } from 'ionicons/icons'
 
 import Map from './pages/map/Map'
+import DistrictList from './pages/district/DistrictList'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -38,7 +39,7 @@ function App() {
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route path="/districts" />
+            <Route path="/districts" component={DistrictList} />
             <Route path="/map" component={Map} />
             <Route exact path="/" render={() => <Redirect to="/map" />} />
           </IonRouterOutlet>

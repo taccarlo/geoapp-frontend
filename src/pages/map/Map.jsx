@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   IonContent,
   IonHeader,
@@ -18,9 +19,6 @@ import classes from './map.module.css'
 
 export class Map extends Component {
   state = {
-    center: [51.505, -0.09],
-    zoom: 13,
-    map: null,
     mapContainer: false,
   }
 
@@ -33,7 +31,8 @@ export class Map extends Component {
   }
 
   render() {
-    const { mapContainer, center, zoom } = this.state
+    console.log('this.props :>> ', this.props)
+    const { center, zoom } = this.props.map
     return (
       <IonPage>
         <IonHeader>
@@ -43,7 +42,7 @@ export class Map extends Component {
         </IonHeader>
 
         <IonContent id="content" fullscreen>
-          {mapContainer ? (
+          {this.state.mapContainer ? (
             <MapContainer
               className={classes.mapContainer}
               center={center}
@@ -60,7 +59,7 @@ export class Map extends Component {
                   return null
                 }}
               </MapConsumer>
-              <Marker position={center}>
+              <Marker position={[45.438351, 10.99171]}>
                 <Popup>
                   A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
@@ -73,4 +72,10 @@ export class Map extends Component {
   }
 }
 
-export default Map
+const mapStateToProps = state => ({
+  map: state.map,
+})
+
+const mapDispatchToProps = {}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Map)
