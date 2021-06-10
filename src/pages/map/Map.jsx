@@ -17,6 +17,8 @@ import {
 
 import classes from './map.module.css'
 
+import LocationList from '../../components/location/LocationList'
+
 export class Map extends Component {
   state = {
     mapContainer: false,
@@ -31,8 +33,8 @@ export class Map extends Component {
   }
 
   render() {
-    console.log('this.props :>> ', this.props)
     const { center, zoom } = this.props.map
+
     return (
       <IonPage>
         <IonHeader>
@@ -42,38 +44,39 @@ export class Map extends Component {
         </IonHeader>
 
         <IonContent id="content" fullscreen>
-          {this.state.mapContainer ? (
+          {this.state.mapContainer && (
             <MapContainer
               className={classes.mapContainer}
               center={center}
               zoom={zoom}
-              scrollWheelZoom={false}
             >
               <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               <MapConsumer>
-                {map => {
+                {(map) => {
                   map.setView(center)
                   return null
                 }}
               </MapConsumer>
+
               <Marker position={[45.438351, 10.99171]}>
-                <Popup>
-                  A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
+                <Popup>Verona</Popup>
               </Marker>
+
+              <LocationList />
             </MapContainer>
-          ) : null}
+          )}
         </IonContent>
       </IonPage>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   map: state.map,
+  locations: state.location.locations,
 })
 
 const mapDispatchToProps = {}
