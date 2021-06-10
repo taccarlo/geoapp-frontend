@@ -1,9 +1,18 @@
 import { IonItem, IonLabel, IonList } from '@ionic/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { setMapView } from '../../redux/actions'
+import { setMapView, fetchDistricts } from '../../redux/actions'
 
-export const DistrictList = ({ districts, setMapView, history }) => {
+export const DistrictList = ({
+  districts,
+  setMapView,
+  fetchDistricts,
+  history,
+}) => {
+  useEffect(() => {
+    fetchDistricts()
+  }, [fetchDistricts])
+
   const onDistrictClick = (district) => {
     setMapView({ lat: district.lat, lng: district.lng })
     history.push('/map')
@@ -30,6 +39,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setMapView,
+  fetchDistricts,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DistrictList)

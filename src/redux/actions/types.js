@@ -2,4 +2,5 @@
 export const SET_VIEW = 'SET_VIEW'
 
 // District
-// export const GET_DISTRICTS = 'GET_DISTRICTS'
+export const FETCH_DISTRICTS = 'FETCH_DISTRICTS'
+export const SET_DISTRICTS = 'FETCH_DISTRICTS'

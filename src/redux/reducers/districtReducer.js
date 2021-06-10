@@ -1,22 +1,17 @@
+import { SET_DISTRICTS } from '../actions/types'
+
 const initialState = {
-  districts: [
-    {
-      id: 1,
-      denominazione: 'San Massimo',
-      lat: 45.43176,
-      lng: 10.94477,
-    },
-    {
-      id: 2,
-      denominazione: 'La Spiana',
-      lat: 45.42835,
-      lng: 10.96523,
-    },
-  ],
+  districts: [],
 }
 
 const districtReducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case SET_DISTRICTS:
+      return {
+        ...state,
+        districts: [...state.districts, ...payload],
+      }
+
     default:
       return state
   }
