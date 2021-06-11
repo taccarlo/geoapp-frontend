@@ -6,3 +6,6 @@ export const SET_DISTRICTS = 'SET_DISTRICTS'
 
 // Categories
 export const SET_CATEGORIES = 'SET_CATEGORIES'
+
+// Locations
+export const SET_LOCATIONS = 'SET_LOCATIONS'
