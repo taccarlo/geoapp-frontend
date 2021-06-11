@@ -2,10 +2,10 @@
 export const SET_VIEW = 'SET_VIEW'
 
 // District
-export const SET_DISTRICTS = 'SET_DISTRICTS'
+export const SHOW_DISTRICTS = 'SHOW_DISTRICTS'
 
 // Categories
-export const SET_CATEGORIES = 'SET_CATEGORIES'
+export const SHOW_CATEGORIES = 'SHOW_CATEGORIES'
 
 // Locations
 export const SET_LOCATIONS = 'SET_LOCATIONS'

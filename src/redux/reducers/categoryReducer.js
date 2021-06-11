@@ -1,15 +1,17 @@
-import { SET_CATEGORIES } from '../actions/types'
+import { SHOW_CATEGORIES } from '../actions/types'
 
 const initialState = {
   categories: [],
+  show: false,
 }
 
 const categoryReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case SET_CATEGORIES:
+    case SHOW_CATEGORIES:
       return {
         ...state,
-        categories: [...payload],
+        categories: [...payload.data],
+        show: payload.show,
       }
 
     default:

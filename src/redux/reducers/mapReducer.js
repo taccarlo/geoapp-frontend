@@ -8,7 +8,6 @@ const initialState = {
 const mapReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SET_VIEW:
-      console.log('payload :>> ', payload)
       return { ...state, center: [payload.lat, payload.lng] }
 
     default:

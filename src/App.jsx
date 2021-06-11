@@ -12,8 +12,6 @@ import { IonReactRouter } from '@ionic/react-router'
 import { mapOutline, home, list } from 'ionicons/icons'
 
 import Map from './pages/map/Map'
-import Districts from './pages/district/Districts'
-import Category from './pages/category/Category'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -33,15 +31,16 @@ import '@ionic/react/css/display.css'
 
 /* Theme variables */
 import './theme/variables.css'
+import TabButton from './components/UI/tabButton/TabButton'
+import { fetchCategories, fetchDistricts } from './redux/actions'
+import { connect } from 'react-redux'
 
-const App = () => {
+const App = ({ fetchDistricts, fetchCategories }) => {
   return (
     <IonApp>
       <IonReactRouter>
         <IonTabs>
           <IonRouterOutlet>
-            <Route path="/categories" component={Category} />
-            <Route path="/districts" component={Districts} />
             <Route path="/map" component={Map} />
             <Route exact path="/" render={() => <Redirect to="/map" />} />
           </IonRouterOutlet>
@@ -51,13 +50,21 @@ const App = () => {
               <IonIcon icon={mapOutline} />
               <IonLabel>Map</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="districts" href="/districts">
-              <IonIcon icon={home} />
-              <IonLabel>Districts</IonLabel>
+
+            <IonTabButton tab="districts">
+              <TabButton
+                label="Districts"
+                icon={home}
+                action={fetchDistricts}
+              ></TabButton>
             </IonTabButton>
-            <IonTabButton tab="categories" href="/categories">
-              <IonIcon icon={list} />
-              <IonLabel>Categories</IonLabel>
+
+            <IonTabButton tab="categories">
+              <TabButton
+                label="Categories"
+                icon={list}
+                action={fetchCategories}
+              ></TabButton>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
@@ -66,4 +73,11 @@ const App = () => {
   )
 }
 
-export default App
+const mapStateToProps = (state) => ({})
+
+const mapDispatchToProps = {
+  fetchDistricts,
+  fetchCategories,
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

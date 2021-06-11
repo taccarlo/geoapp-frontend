@@ -1,10 +1,20 @@
-import { SET_DISTRICTS } from './types'
+import { SHOW_DISTRICTS } from './types'
 import strapi from '../../api/strapi'
 
 export const fetchDistricts = () => async (dispatch, getState) => {
-  const res = await strapi.get('/districts')
-  dispatch({
-    type: SET_DISTRICTS,
-    payload: res.data,
-  })
+  if (!getState().district.districts.length) {
+    const res = await strapi.get('/districts')
+    dispatch({
+      type: SHOW_DISTRICTS,
+      payload: { data: res.data, show: true },
+    })
+  } else {
+    dispatch({
+      type: SHOW_DISTRICTS,
+      payload: {
+        data: getState().district.districts,
+        show: !getState().district.show,
+      },
+    })
+  }
 }

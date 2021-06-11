@@ -15,9 +15,11 @@ import {
   MapConsumer,
 } from 'react-leaflet'
 
-import classes from './map.module.css'
+import classes from './Map.module.css'
 
 import LocationList from '../../components/location/LocationList'
+import DistrictList from '../../components/district/DistrictList'
+import CategoryList from '../../components/category/CategoryList'
 
 export class Map extends Component {
   state = {
@@ -60,14 +62,15 @@ export class Map extends Component {
                   return null
                 }}
               </MapConsumer>
-
               <Marker position={[45.438351, 10.99171]}>
                 <Popup>Verona</Popup>
               </Marker>
-
               <LocationList />
             </MapContainer>
           )}
+
+          <DistrictList />
+          <CategoryList />
         </IonContent>
       </IonPage>
     )
@@ -76,7 +79,7 @@ export class Map extends Component {
 
 const mapStateToProps = (state) => ({
   map: state.map,
-  locations: state.location.locations,
+  showDistricts: state.district.show,
 })
 
 const mapDispatchToProps = {}

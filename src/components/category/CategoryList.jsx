@@ -1,37 +1,54 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
-import { IonIcon, IonItem, IonList } from '@ionic/react'
+import { IonIcon, IonItem, IonList, IonText } from '@ionic/react'
 import { medkitOutline, leafOutline } from 'ionicons/icons'
-import { fetchCategories } from '../../redux/actions'
+import Modal from '../UI/modal/Modal'
 
 const categoryConfig = {
-  parco: leafOutline,
-  farmacia: medkitOutline,
+  parco: {
+    icon: leafOutline,
+    color: 'success',
+  },
+  farmacia: {
+    icon: medkitOutline,
+    color: 'danger',
+  },
 }
 
-const CategoryList = ({ categories, fetchCategories }) => {
-  useEffect(() => {
-    fetchCategories()
-  }, [fetchCategories])
+const CategoryList = ({ categories, show }) => {
+  const renderCategories = () => {
+    if (show) {
+      return (
+        <Modal>
+          <IonList>
+            {categories.map((category) => (
+              <IonItem key={category.id} button>
+                <IonIcon
+                  color={categoryConfig[category.denominazione].color}
+                  icon={categoryConfig[category.denominazione].icon}
+                  slot="start"
+                />
+                <IonText color={categoryConfig[category.denominazione].color}>
+                  {category.denominazione}
+                </IonText>
+              </IonItem>
+            ))}
+          </IonList>
+        </Modal>
+      )
+    } else {
+      return null
+    }
+  }
 
-  return (
-    <IonList>
-      {categories.map((category) => (
-        <IonItem key={category.id} button>
-          <IonIcon icon={categoryConfig[category.denominazione]} slot="start" />
-          {category.denominazione}
-        </IonItem>
-      ))}
-    </IonList>
-  )
+  return renderCategories()
 }
 
 const mapStateToProps = (state) => ({
   categories: state.category.categories,
+  show: state.category.show,
 })
 
-const mapDispatchToProps = {
-  fetchCategories,
-}
+const mapDispatchToProps = {}
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)

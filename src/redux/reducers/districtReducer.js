@@ -1,15 +1,17 @@
-import { SET_DISTRICTS } from '../actions/types'
+import { SHOW_DISTRICTS } from '../actions/types'
 
 const initialState = {
   districts: [],
+  show: false,
 }
 
 const districtReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case SET_DISTRICTS:
+    case SHOW_DISTRICTS:
       return {
         ...state,
-        districts: [...payload],
+        districts: [...payload.data],
+        show: payload.show,
       }
 
     default:
