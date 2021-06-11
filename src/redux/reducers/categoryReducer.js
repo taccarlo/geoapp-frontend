@@ -1,4 +1,4 @@
-import { SHOW_CATEGORIES } from '../actions/types'
+import { SHOW_CATEGORIES, SWITCH_IS_CHECKED } from '../actions/types'
 
 const initialState = {
   categories: [],
@@ -12,6 +12,22 @@ const categoryReducer = (state = initialState, { type, payload }) => {
         ...state,
         categories: [...payload.data],
         show: payload.show,
+      }
+
+    case SWITCH_IS_CHECKED:
+      const categories = state.categories.map((category) => {
+        if (category.id === payload) {
+          return {
+            ...category,
+            isChecked: !category.isChecked,
+          }
+        }
+        return category
+      })
+
+      return {
+        ...state,
+        categories: [...categories],
       }
 
     default:

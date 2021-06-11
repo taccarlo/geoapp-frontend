@@ -79,7 +79,6 @@ export class Map extends Component {
 
 const mapStateToProps = (state) => ({
   map: state.map,
-  showDistricts: state.district.show,
 })
 
 const mapDispatchToProps = {}

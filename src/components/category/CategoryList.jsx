@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { IonIcon, IonItem, IonList, IonText } from '@ionic/react'
+import { IonCheckbox, IonIcon, IonItem, IonLabel, IonList } from '@ionic/react'
 import { medkitOutline, leafOutline } from 'ionicons/icons'
 import Modal from '../UI/modal/Modal'
+
+import { fetchLocations, switchIsChecked } from '../../redux/actions'
 
 const categoryConfig = {
   parco: {
@@ -15,22 +17,65 @@ const categoryConfig = {
   },
 }
 
-const CategoryList = ({ categories, show }) => {
+const catIds = []
+
+const CategoryList = ({
+  categories,
+  show,
+  fetchLocations,
+  switchIsChecked,
+}) => {
+  const onLocationClick = (cat) => {
+    if (!cat.isChecked) {
+      switchIsChecked(cat.id)
+      const category = catIds.find((id) => id === cat.id)
+      if (!category) {
+        catIds.push(cat.id)
+      }
+      fetchLocations(catIds)
+    } else {
+      switchIsChecked(cat.id)
+      const categoryIndex = catIds.findIndex((id) => id === cat.id)
+      catIds.splice(categoryIndex, 1)
+      fetchLocations(catIds)
+    }
+    console.log('catIds :>> ', catIds)
+  }
+
   const renderCategories = () => {
     if (show) {
       return (
         <Modal>
           <IonList>
             {categories.map((category) => (
-              <IonItem key={category.id} button>
+              <IonItem
+                key={category.id}
+                button
+                onClick={() => onLocationClick(category)}
+              >
+                <IonCheckbox
+                  slot="start"
+                  value={category.id}
+                  checked={category.isChecked}
+                />
                 <IonIcon
-                  color={categoryConfig[category.denominazione].color}
+                  color={
+                    category.isChecked
+                      ? categoryConfig[category.denominazione].color
+                      : 'medium'
+                  }
                   icon={categoryConfig[category.denominazione].icon}
                   slot="start"
                 />
-                <IonText color={categoryConfig[category.denominazione].color}>
+                <IonLabel
+                  color={
+                    category.isChecked
+                      ? categoryConfig[category.denominazione].color
+                      : 'medium'
+                  }
+                >
                   {category.denominazione}
-                </IonText>
+                </IonLabel>
               </IonItem>
             ))}
           </IonList>
@@ -49,6 +94,9 @@ const mapStateToProps = (state) => ({
   show: state.category.show,
 })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {
+  fetchLocations,
+  switchIsChecked,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)
