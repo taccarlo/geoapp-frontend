@@ -84,7 +84,7 @@ class Contribute extends Component {
         <IonContent>
           <form onSubmit={this.onSubmit}>
             <IonItem>
-              <IonLabel position="stacked">Denominazione</IonLabel>
+              <IonLabel position="floating">Denominazione</IonLabel>
               <IonInput
                 type="text"
                 name="denominazione"
@@ -95,7 +95,7 @@ class Contribute extends Component {
               ></IonInput>
             </IonItem>
             <IonItem>
-              <IonLabel position="stacked">Indirizzo</IonLabel>
+              <IonLabel position="floating">Indirizzo</IonLabel>
               <IonInput
                 type="text"
                 name="indirizzo"
@@ -106,7 +106,7 @@ class Contribute extends Component {
               ></IonInput>
             </IonItem>
             <IonItem>
-              <IonLabel position="stacked">Civico</IonLabel>
+              <IonLabel position="floating">Civico</IonLabel>
               <IonInput
                 type="text"
                 name="civico"
@@ -169,7 +169,7 @@ class Contribute extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  districts: state.district.districts,
+  districts: Object.values(state.district),
   categories: state.category.categories,
 })
 

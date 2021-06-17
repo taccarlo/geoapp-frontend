@@ -2,7 +2,7 @@
 export const SET_VIEW = 'SET_VIEW'
 
 // District
-export const SHOW_DISTRICTS = 'SHOW_DISTRICTS'
+export const FETCH_DISTRICTS = 'FETCH_DISTRICTS'
 
 // Categories
 export const SHOW_CATEGORIES = 'SHOW_CATEGORIES'

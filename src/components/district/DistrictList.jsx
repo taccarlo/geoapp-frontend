@@ -1,46 +1,40 @@
 import { IonItem, IonLabel, IonList } from '@ionic/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { setMapView } from '../../redux/actions'
-import Modal from '../UI/modal/Modal'
+import { fetchDistricts, setMapView } from '../../redux/actions'
 
-const DistrictList = ({ districts, setMapView, show }) => {
+const DistrictList = ({ fetchDistricts, districts, setMapView, history }) => {
+  useEffect(() => {
+    fetchDistricts()
+  }, [fetchDistricts])
+
   const onDistrictClick = (district) => {
     setMapView({ lat: district.lat, lng: district.lng })
+    history.push('/map')
   }
 
-  const renderDistricts = () => {
-    if (show) {
-      return (
-        <Modal>
-          <IonList>
-            {districts.map((district) => (
-              <IonItem
-                button
-                key={district.id}
-                onClick={() => onDistrictClick(district)}
-              >
-                <IonLabel>{district.denominazione}</IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
-        </Modal>
-      )
-    } else {
-      return null
-    }
-  }
-
-  return renderDistricts()
+  return (
+    <IonList>
+      {districts.map((district) => (
+        <IonItem
+          button
+          key={district.id}
+          onClick={() => onDistrictClick(district)}
+        >
+          <IonLabel>{district.denominazione}</IonLabel>
+        </IonItem>
+      ))}
+    </IonList>
+  )
 }
 
 const mapStateToProps = (state) => ({
-  districts: state.district.districts,
-  show: state.district.show,
+  districts: Object.values(state.district),
 })
 
 const mapDispatchToProps = {
   setMapView,
+  fetchDistricts,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DistrictList)

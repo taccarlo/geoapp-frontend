@@ -1,18 +1,12 @@
-import { SHOW_DISTRICTS } from '../actions/types'
+import _ from 'lodash'
+import { FETCH_DISTRICTS } from '../actions/types'
 
-const initialState = {
-  districts: [],
-  show: false,
-}
+const initialState = {}
 
 const districtReducer = (state = initialState, { type, payload }) => {
   switch (type) {
-    case SHOW_DISTRICTS:
-      return {
-        ...state,
-        districts: [...payload.data],
-        show: payload.show,
-      }
+    case FETCH_DISTRICTS:
+      return { ...state, ..._.mapKeys(payload, 'id') }
 
     default:
       return state

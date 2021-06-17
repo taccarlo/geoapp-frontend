@@ -18,8 +18,6 @@ import {
 import classes from './Map.module.css'
 
 import LocationList from '../../components/location/LocationList'
-import DistrictList from '../../components/district/DistrictList'
-import CategoryList from '../../components/category/CategoryList'
 
 export class Map extends Component {
   state = {
@@ -68,9 +66,6 @@ export class Map extends Component {
               <LocationList />
             </MapContainer>
           )}
-
-          <DistrictList />
-          <CategoryList />
         </IonContent>
       </IonPage>
     )

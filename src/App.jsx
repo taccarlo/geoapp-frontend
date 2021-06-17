@@ -14,10 +14,16 @@ import {
   location,
   arrowUpOutline,
   addCircleOutline,
+  searchOutline,
 } from 'ionicons/icons'
 
+import TabButton from './components/UI/tabButton/TabButton'
 import Map from './pages/map/Map'
+import Search from './pages/search/Search'
+import District from './pages/district/District'
 import Contribute from './pages/contribute/Contribute'
+import { fetchCategories, fetchDistricts } from './redux/actions'
+import { connect } from 'react-redux'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -37,9 +43,6 @@ import '@ionic/react/css/display.css'
 
 /* Theme variables */
 import './theme/variables.css'
-import TabButton from './components/UI/tabButton/TabButton'
-import { fetchCategories, fetchDistricts } from './redux/actions'
-import { connect } from 'react-redux'
 
 const App = ({ fetchDistricts, fetchCategories }) => {
   return (
@@ -48,8 +51,10 @@ const App = ({ fetchDistricts, fetchCategories }) => {
         <IonTabs>
           <IonRouterOutlet>
             <Route path="/map" component={Map} />
+            <Route path="/search" component={Search} />
+            <Route path="/districts" component={District} />
             <Route path="/contribute" component={Contribute} />
-            <Route exact path="/" render={() => <Redirect to="/map" />} />
+            <Route path="/" exact render={() => <Redirect to="/map" />} />
           </IonRouterOutlet>
 
           <IonTabBar slot="bottom">
@@ -58,12 +63,14 @@ const App = ({ fetchDistricts, fetchCategories }) => {
               <IonLabel>Map</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="districts">
-              <TabButton
-                label="Districts"
-                icon={location}
-                action={fetchDistricts}
-              ></TabButton>
+            <IonTabButton tab="search" href="/search">
+              <IonIcon icon={searchOutline} />
+              <IonLabel>Search</IonLabel>
+            </IonTabButton>
+
+            <IonTabButton tab="districts" href="/districts">
+              <IonIcon icon={location} />
+              <IonLabel>Districts</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="categories">
