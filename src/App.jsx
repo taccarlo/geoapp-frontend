@@ -9,9 +9,15 @@ import {
   IonTabs,
 } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
-import { mapOutline, home, list } from 'ionicons/icons'
+import {
+  mapOutline,
+  location,
+  arrowUpOutline,
+  addCircleOutline,
+} from 'ionicons/icons'
 
 import Map from './pages/map/Map'
+import Contribute from './pages/contribute/Contribute'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css'
@@ -42,6 +48,7 @@ const App = ({ fetchDistricts, fetchCategories }) => {
         <IonTabs>
           <IonRouterOutlet>
             <Route path="/map" component={Map} />
+            <Route path="/contribute" component={Contribute} />
             <Route exact path="/" render={() => <Redirect to="/map" />} />
           </IonRouterOutlet>
 
@@ -54,7 +61,7 @@ const App = ({ fetchDistricts, fetchCategories }) => {
             <IonTabButton tab="districts">
               <TabButton
                 label="Districts"
-                icon={home}
+                icon={location}
                 action={fetchDistricts}
               ></TabButton>
             </IonTabButton>
@@ -62,9 +69,14 @@ const App = ({ fetchDistricts, fetchCategories }) => {
             <IonTabButton tab="categories">
               <TabButton
                 label="Categories"
-                icon={list}
+                icon={arrowUpOutline}
                 action={fetchCategories}
               ></TabButton>
+            </IonTabButton>
+
+            <IonTabButton tab="contribute" href="/contribute">
+              <IonIcon icon={addCircleOutline} />
+              <IonLabel>Contribute</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
