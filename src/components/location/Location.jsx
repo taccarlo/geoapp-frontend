@@ -1,5 +1,6 @@
 import React from 'react'
 
+// TODO implement location popup
 const Location = ({ location }) => {
   return (
     <div>

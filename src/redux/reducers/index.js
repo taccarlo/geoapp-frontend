@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import mapReducer from './mapReducer'
-import districtReducer from './districtReducer'
-import categoryReducer from './categoryReducer'
-import locationReducer from './locationReducer'
+import authReducer from './auth'
+import mapReducer from './map'
+import districtReducer from './district'
+import categoryReducer from './category'
+import locationReducer from './location'
 
 export default combineReducers({
+  auth: authReducer,
   map: mapReducer,
   district: districtReducer,
   category: categoryReducer,

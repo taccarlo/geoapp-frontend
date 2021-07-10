@@ -1,7 +1,9 @@
+export { register, login, logout } from './auth'
+
 export { setMapView } from './map'
 
 export { fetchDistricts } from './district'
 
-export { fetchCategories, switchIsChecked } from './category'
+export { fetchCategories } from './category'
 
-export { fetchLocations } from './location'
+export { fetchLocations, clearLocations } from './location'

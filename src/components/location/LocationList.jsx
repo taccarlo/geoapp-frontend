@@ -1,51 +1,34 @@
 import React from 'react'
+import { IonItem, IonLabel, IonList } from '@ionic/react'
+
 import { connect } from 'react-redux'
-import { Marker, Popup } from 'react-leaflet'
-import L from 'leaflet'
-import parco from '../../assets/icons/locations/parco.svg'
-import farmacia from '../../assets/icons/locations/farmacia.svg'
-import Location from './Location'
+import { setMapView } from '../../redux/actions'
 
-const parcoIcon = L.icon({
-  iconUrl: parco,
-  iconSize: [30, 30],
-})
+// TODO Fix map view
+export const LocationList = ({ locations, history }) => {
+  const onLocationClick = location => {
+    console.log('location :>> ', location)
+    setMapView({ lat: location.lat, lng: location.lng })
+    history.push('/map')
+  }
 
-const farmaciaIcon = L.icon({
-  iconUrl: farmacia,
-  iconSize: [30, 30],
-})
-
-const locationConfig = {
-  parco: {
-    icon: parcoIcon,
-  },
-  farmacia: {
-    icon: farmaciaIcon,
-  },
-}
-
-export const LocationList = ({ locations }) => {
   return (
-    <div>
-      {locations.length &&
-        locations.map((loc) => (
-          <Marker
-            key={loc.id}
-            position={[loc.lat, loc.lng]}
-            icon={locationConfig[loc.category.denominazione].icon}
-          >
-            <Popup>
-              <Location location={loc} />
-            </Popup>
-          </Marker>
-        ))}
-    </div>
+    <IonList>
+      {locations.map(location => (
+        <IonItem
+          button
+          key={location.id}
+          onClick={() => onLocationClick(location)}
+        >
+          <IonLabel>{location.denominazione}</IonLabel>
+        </IonItem>
+      ))}
+    </IonList>
   )
 }
 
-const mapStateToProps = (state) => ({
-  locations: state.location.locations,
+const mapStateToProps = state => ({
+  locations: Object.values(state.location),
 })
 
 const mapDispatchToProps = {}

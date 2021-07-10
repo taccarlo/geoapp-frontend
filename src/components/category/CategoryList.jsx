@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { IonCheckbox, IonIcon, IonItem, IonLabel, IonList } from '@ionic/react'
-import { medkitOutline, leafOutline } from 'ionicons/icons'
-import Modal from '../UI/modal/Modal'
-
-import { fetchLocations, switchIsChecked } from '../../redux/actions'
+import {
+  IonCheckbox,
+  IonFab,
+  IonFabButton,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonProgressBar,
+  IonToast,
+} from '@ionic/react'
+import { medkitOutline, leafOutline, checkmarkSharp } from 'ionicons/icons'
+import {
+  fetchCategories,
+  fetchLocations,
+  clearLocations,
+} from '../../redux/actions'
 
 const categoryConfig = {
   parco: {
@@ -17,86 +29,120 @@ const categoryConfig = {
   },
 }
 
-const catIds = []
-
 const CategoryList = ({
+  fetchCategories,
+  loading,
+  error,
   categories,
-  show,
   fetchLocations,
-  switchIsChecked,
+  clearLocations,
+  history,
 }) => {
-  const onLocationClick = (cat) => {
-    if (!cat.isChecked) {
-      switchIsChecked(cat.id)
-      const category = catIds.find((id) => id === cat.id)
-      if (!category) {
-        catIds.push(cat.id)
-      }
-      fetchLocations(catIds)
-    } else {
-      switchIsChecked(cat.id)
-      const categoryIndex = catIds.findIndex((id) => id === cat.id)
-      catIds.splice(categoryIndex, 1)
-      fetchLocations(catIds)
-    }
-    console.log('catIds :>> ', catIds)
+  const [checkedState, setCheckedState] = useState({})
+
+  useEffect(() => {
+    fetchCategories()
+  }, [fetchCategories])
+
+  const onCategorySelect = category => {
+    const temp = { ...checkedState, [category.id]: !checkedState[category.id] }
+    setCheckedState(temp)
   }
 
-  const renderCategories = () => {
-    if (show) {
-      return (
-        <Modal>
-          <IonList>
-            {categories.map((category) => (
-              <IonItem
-                key={category.id}
-                button
-                onClick={() => onLocationClick(category)}
+  const onFilterSubmit = () => {
+    const categoryIds = Object.entries(checkedState).map(categoryId =>
+      categoryId[1] === true ? +categoryId[0] : null
+    )
+    if (categoryIds.every(value => value === null)) {
+      clearLocations()
+      history.push('/map')
+    } else {
+      fetchLocations(categoryIds)
+      history.push('/map')
+    }
+  }
+
+  return (
+    <Fragment>
+      {loading ? (
+        <IonProgressBar type="indeterminate"></IonProgressBar>
+      ) : (
+        <IonList>
+          {categories.map(category => (
+            <IonItem
+              key={category.id}
+              button
+              onClick={() => onCategorySelect(category)}
+            >
+              <IonCheckbox
+                slot="start"
+                value={category.id}
+                checked={checkedState[category.id]}
+              />
+              <IonIcon
+                color={
+                  checkedState[category.id]
+                    ? categoryConfig[category.denominazione].color
+                    : 'medium'
+                }
+                icon={categoryConfig[category.denominazione].icon}
+                slot="start"
+              />
+              <IonLabel
+                color={
+                  checkedState[category.id]
+                    ? categoryConfig[category.denominazione].color
+                    : 'medium'
+                }
               >
-                <IonCheckbox
-                  slot="start"
-                  value={category.id}
-                  checked={category.isChecked}
-                />
-                <IonIcon
-                  color={
-                    category.isChecked
-                      ? categoryConfig[category.denominazione].color
-                      : 'medium'
-                  }
-                  icon={categoryConfig[category.denominazione].icon}
-                  slot="start"
-                />
-                <IonLabel
-                  color={
-                    category.isChecked
-                      ? categoryConfig[category.denominazione].color
-                      : 'medium'
-                  }
-                >
-                  {category.denominazione}
-                </IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
-        </Modal>
-      )
-    } else {
-      return null
-    }
-  }
+                {category.denominazione}
+              </IonLabel>
+            </IonItem>
+          ))}
+        </IonList>
+      )}
 
-  return renderCategories()
+      {categories.length > 0 && (
+        <IonFab vertical="bottom" horizontal="end">
+          <IonFabButton type="submit" onClick={onFilterSubmit}>
+            <IonIcon icon={checkmarkSharp}></IonIcon>
+          </IonFabButton>
+        </IonFab>
+      )}
+
+      {!!error && (
+        <IonToast
+          isOpen={!!error}
+          color="danger"
+          position="bottom"
+          onDidDismiss={() => fetchCategories()}
+          message={error.message}
+          duration={5000}
+          buttons={[
+            {
+              icon: 'close-sharp',
+              role: 'cancel',
+              handler: () => {
+                fetchCategories()
+              },
+            },
+          ]}
+        />
+      )}
+    </Fragment>
+  )
 }
 
-const mapStateToProps = (state) => ({
-  categories: state.category.categories,
-  show: state.category.show,
+const mapStateToProps = state => ({
+  categories: Object.values(state.category.categories),
+  loading: state.category.loading,
+  error: state.category.error,
 })
 
 const mapDispatchToProps = {
+  fetchCategories,
   fetchLocations,
-  switchIsChecked,
+  clearLocations,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)

@@ -1,28 +1,24 @@
-import { SHOW_CATEGORIES, SWITCH_IS_CHECKED } from './types'
+import {
+  FETCH_CATEGORIES_SUCCESS,
+  FETCH_CATEGORIES_PENDING,
+  FETCH_CATEGORIES_FAILED,
+} from './types'
 import strapi from '../../api/strapi'
 
-export const fetchCategories = () => async (dispatch, getState) => {
-  if (!getState().category.categories.length) {
+export const fetchCategories = () => async dispatch => {
+  dispatch({
+    type: FETCH_CATEGORIES_PENDING,
+  })
+  try {
     const res = await strapi.get('/categories')
-    for (const category of res.data) {
-      category.isChecked = false
-    }
     dispatch({
-      type: SHOW_CATEGORIES,
-      payload: { data: res.data, show: true },
+      type: FETCH_CATEGORIES_SUCCESS,
+      payload: res.data,
     })
-  } else {
+  } catch (err) {
     dispatch({
-      type: SHOW_CATEGORIES,
-      payload: {
-        data: getState().category.categories,
-        show: !getState().category.show,
-      },
+      type: FETCH_CATEGORIES_FAILED,
+      payload: err,
     })
   }
 }
-
-export const switchIsChecked = (payload) => ({
-  type: SWITCH_IS_CHECKED,
-  payload,
-})

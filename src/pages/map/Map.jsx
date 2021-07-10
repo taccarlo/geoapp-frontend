@@ -17,7 +17,7 @@ import {
 
 import classes from './Map.module.css'
 
-import LocationList from '../../components/location/LocationList'
+import LocationMarkers from '../../components/location/LocationMarkers'
 
 export class Map extends Component {
   state = {
@@ -55,7 +55,7 @@ export class Map extends Component {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               <MapConsumer>
-                {(map) => {
+                {map => {
                   map.setView(center)
                   return null
                 }}
@@ -63,7 +63,7 @@ export class Map extends Component {
               <Marker position={[45.438351, 10.99171]}>
                 <Popup>Verona</Popup>
               </Marker>
-              <LocationList />
+              <LocationMarkers />
             </MapContainer>
           )}
         </IonContent>
@@ -72,7 +72,7 @@ export class Map extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   map: state.map,
 })
 
