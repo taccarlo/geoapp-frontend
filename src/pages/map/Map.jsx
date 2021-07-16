@@ -6,6 +6,8 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonButton,
+  IonModal,
 } from '@ionic/react'
 import {
   MapContainer,
@@ -14,10 +16,11 @@ import {
   Popup,
   MapConsumer,
 } from 'react-leaflet'
-
+import { dismissLocationModal } from '../../redux/actions'
 import classes from './Map.module.css'
 
 import LocationMarkers from '../../components/location/LocationMarkers'
+import LocationModal from '../../components/location/LocationModal'
 
 export class Map extends Component {
   state = {
@@ -33,8 +36,7 @@ export class Map extends Component {
   }
 
   render() {
-    const { center, zoom } = this.props.map
-
+    const { center, zoom, locationClicked, showModal } = this.props.map
     return (
       <IonPage>
         <IonHeader>
@@ -44,6 +46,14 @@ export class Map extends Component {
         </IonHeader>
 
         <IonContent id="content" fullscreen>
+        
+          <IonModal isOpen={showModal} backdropDismiss={false}>   
+           { locationClicked && ( <LocationModal loc={locationClicked}/> )}
+            <IonButton onClick={() => this.props.dismissLocationModal()}>
+              Dismiss
+            </IonButton>
+          </IonModal>
+
           {this.state.mapContainer && (
             <MapContainer
               className={classes.mapContainer}
@@ -76,6 +86,6 @@ const mapStateToProps = state => ({
   map: state.map,
 })
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {dismissLocationModal}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map)

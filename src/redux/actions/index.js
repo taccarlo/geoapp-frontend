@@ -1,6 +1,6 @@
 export { register, login, logout } from './auth'
 
-export { setMapView } from './map'
+export { setMapView, showLocationModal, dismissLocationModal } from './map'
 
 export { fetchDistricts } from './district'
 
