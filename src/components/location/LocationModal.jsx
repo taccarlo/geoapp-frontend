@@ -68,7 +68,7 @@ export const LocationModal = ({ loc }) => {
         <IonLabel>Orario {loc.orario}</IonLabel>
       </IonItem>
       <IonItem>
-        <IonLabel className="ion-text-wrap">Descrizione {loc.descrizizone}</IonLabel>
+        <IonLabel className="ion-text-wrap">Descrizione {loc.descrizione}</IonLabel>
       </IonItem>
       <IonItem>
         <IonLabel>Cover {loc.cover.name}</IonLabel>

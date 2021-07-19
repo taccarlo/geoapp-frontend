@@ -49,7 +49,7 @@ const Contribute = ({
       telefono: '',
       sito: '',
       orario: '',
-      descrizizone: '',
+      descrizione: '',
       category: '',
       district: '',
       lat: '',
@@ -60,10 +60,10 @@ const Contribute = ({
       indirizzo: Yup.string().required(),
       civico: Yup.string().required(),
       email: Yup.string().email(),
-      telefono: Yup.number(),
+      telefono: Yup.string(),
       sito: Yup.string().url(),
       orario: Yup.string(),
-      descrizizone: Yup.string(),
+      descrizione: Yup.string(),
       district: Yup.number().required(),
       category: Yup.number().required(),
       lat: Yup.number().required(),
@@ -186,7 +186,7 @@ const Contribute = ({
             label="Telefono"
             id="telefono"
             name="telefono"
-            type="number"
+            type="text"
             value={formik.values.telefono}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -216,14 +216,14 @@ const Contribute = ({
           />
 
           <InputField
-            label="Descrizizone"
-            id="descrizizone"
-            name="descrizizone"
+            label="Descrizione"
+            id="descrizione"
+            name="descrizione"
             type="text"
-            value={formik.values.descrizizone}
+            value={formik.values.descrizione}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            error={formik.touched.descrizizone && formik.errors.descrizizone}
+            error={formik.touched.descrizione && formik.errors.descrizione}
           />
 
           <SelectField
