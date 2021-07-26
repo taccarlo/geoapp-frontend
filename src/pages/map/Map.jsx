@@ -12,8 +12,10 @@ import {
   TileLayer,
   Marker,
   Popup,
+  WMSTileLayer,
   MapConsumer,
   GeoJSON,
+  LayersControl,
 } from 'react-leaflet'
 
 import classes from './Map.module.css'
@@ -72,6 +74,37 @@ export class Map extends Component {
               center={center}
               zoom={zoom}
             >
+              <LayersControl position="topright">
+      <LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+      </LayersControl.BaseLayer>
+      <LayersControl.BaseLayer name="OpenStreetMap.BlackAndWhite">
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+        />
+      </LayersControl.BaseLayer>
+
+      <LayersControl.Overlay name="experiment">
+
+      <WMSTileLayer
+      layers='OSM-Overlay-WMS'
+      url="http://ows.mundialis.de/services/service?"
+      transparent='true'
+      />
+
+      </LayersControl.Overlay>
+      <LayersControl.Overlay name="Marker with popup">
+        <Marker position={[45.439351, 10.99471]}>
+          <Popup>
+            Verona 2
+          </Popup>
+        </Marker>
+      </LayersControl.Overlay>
+    </LayersControl>
               <GeoJSON key='farmacie' data={farmacie.features} onEachFeature={this.OnEachFarmacia} />
               <GeoJSON key='parchi' data={parchi.features} onEachFeature={this.OnEachParco} />
               <GeoJSON key='paesi' data={paesi.features} onEachFeature={this.OnEachPaese} />
