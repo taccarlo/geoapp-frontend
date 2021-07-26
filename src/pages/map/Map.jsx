@@ -18,6 +18,8 @@ import {
   LayersControl,
 } from 'react-leaflet'
 
+import axios from 'axios';
+
 import classes from './Map.module.css'
 
 import LocationMarkers from '../../components/location/LocationMarkers'
@@ -55,7 +57,23 @@ export class Map extends Component {
     })
   }
 
+  
   render() {
+
+    
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'crossdomain': 'true',
+        'Content-Type':'application/x-www-form-urlencoded',
+        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
+    };
+
+    //axios.get("http://192.168.20.20:8080/geoserver/circoscrizioni/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=circoscrizioni%3Acircoscrizioni&maxFeatures=50&outputFormat=application%2Fjson", { headers }).then(response => console.log(response));
+    
+    axios.get("https://api.npms.io/v2/search?q=react", { headers }).then(response => console.log(response));
+
     const { center, zoom } = this.props.map
     var farmacie = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 5"},"geometry":{"type":"Point","coordinates":[10.832991600036621,45.43372583298752]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 3"},"geometry":{"type":"Point","coordinates":[10.855522155761719,45.416286468478475]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 4"},"geometry":{"type":"Point","coordinates":[10.783424377441406,45.42086519967432]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia1"},"geometry":{"type":"Point","coordinates":[10.99658489227295,45.44691472640307]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 2"},"geometry":{"type":"Point","coordinates":[10.987358093261719,45.44730613046779]}}]};
     var parchi = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"airport","nome":"Parco 1"},"geometry":{"type":"Point","coordinates":[11.034822463989258,45.4468846182856]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Parco 2"},"geometry":{"type":"Point","coordinates":[11.05748176574707,45.43357525704575]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Parco 3"},"geometry":{"type":"Point","coordinates":[11.715545654296875,45.31352900692258]}}]};
@@ -91,9 +109,12 @@ export class Map extends Component {
       <LayersControl.Overlay name="experiment">
 
       <WMSTileLayer
-      layers='OSM-Overlay-WMS'
-      url="http://ows.mundialis.de/services/service?"
-      transparent='true'
+      url="http://192.168.20.20:8080/geoserver/circoscrizioni/wms?scrizioni&bbox=10.877110481262207%2C45.3494987487793%2C11.12392807006836%2C45.54174041748047&srs=EPSG%3A404000"
+      format="image"
+      service="WMS"
+      request="GetMap"
+      layers="circoscrizioni:circoscrizioni"
+      version="1.1.0"
       />
 
       </LayersControl.Overlay>
