@@ -1201,10 +1201,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@capacitor/android@^3.0.1":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.0.2.tgz#818c98006456e00b34d11c231a8a53ec971b2ee2"
-  integrity sha512-sn2FGCMscXr8q413gSz8p1TAw69D3i4Hb2Bcd0S0SSDbvXwHCtDgwKQfD777+wmLifSkt8fwWVFIOKdbiGVRHw==
+"@capacitor/android@3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@capacitor/android/-/android-3.1.2.tgz#b9f42fcbfb31639575cd90b63754e9ec526d434d"
+  integrity sha512-WF2E2jWxO3EBl8Y3aTAa8PHwMZGiAl9pdqvJaEUUhbbovXe0UxAuG4n0mfci4ZI6dD8gannQ2peoZ74vJ0Gr3Q==
 
 "@capacitor/camera@^1.0.1":
   version "1.0.2"
