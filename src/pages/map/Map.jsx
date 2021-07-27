@@ -68,7 +68,7 @@ export class Map extends Component {
   }
 
   OnEachQuartiere = (quartiere, layer) =>{
-    layer.bindPopup(quartiere.properties.nome)
+    layer.bindPopup(quartiere.properties.quartiere)
   }
 
   OnEachCircoscrizione = (paese, layer) =>{
