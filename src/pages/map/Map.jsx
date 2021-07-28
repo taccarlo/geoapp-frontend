@@ -22,9 +22,9 @@ import classes from './Map.module.css'
 
 import LocationMarkers from '../../components/location/LocationMarkers'
 
-import axios from 'axios'
+//import axios from 'axios'
 
-import circoscrizioni from '../../data/circoscrizioni.json'
+//import circoscrizioni from '../../data/circoscrizioni.json'
 import quartieri from '../../data/quartieri.json'
 import farmacie from '../../data/farmacie.json'
 import scuole from '../../data/scuole.json'
@@ -83,12 +83,20 @@ export class Map extends Component {
 
   render() {
     const { center, zoom } = this.props.map
-    const headers = {
-      'crossdomain': 'true',
-      'Content-Type':'application/x-www-form-urlencoded',
-    };
-    //axios.get("http://192.168.20.20:8080/geoserver/circoscrizioni/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=circoscrizioni%3Acircoscrizioni&maxFeatures=50&outputFormat=application%2Fjson", { headers }).then(response => console.log(response));
-    //fetch('https://jsonplaceholder.typicode.com/todos/1') .then(response => response.json()) .then(data => console.log(data));
+    var circoscrizioni={};
+    fetch('http://192.168.20.63:5000/get/circoscrizioni', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 
     //var farmacie = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 5"},"geometry":{"type":"Point","coordinates":[10.832991600036621,45.43372583298752]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 3"},"geometry":{"type":"Point","coordinates":[10.855522155761719,45.416286468478475]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 4"},"geometry":{"type":"Point","coordinates":[10.783424377441406,45.42086519967432]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia1"},"geometry":{"type":"Point","coordinates":[10.99658489227295,45.44691472640307]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 2"},"geometry":{"type":"Point","coordinates":[10.987358093261719,45.44730613046779]}}]};
     return (
