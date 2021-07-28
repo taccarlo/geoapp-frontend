@@ -70,9 +70,9 @@ export class Map extends Component {
         "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
     };
 
-    //axios.get("http://192.168.20.20:8080/geoserver/circoscrizioni/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=circoscrizioni%3Acircoscrizioni&maxFeatures=50&outputFormat=application%2Fjson", { headers }).then(response => console.log(response));
+    axios.get("http://192.168.20.48:8080/geoserver/geoapp/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geoapp%3Asigi%20180%20scuole&maxFeatures=50&outputFormat=application%2Fjson", { headers }).then(response => console.log(response));
     
-    axios.get("https://api.npms.io/v2/search?q=react", { headers }).then(response => console.log(response));
+    //axios.get("https://api.npms.io/v2/search?q=react", { headers }).then(response => console.log(response));
 
     const { center, zoom } = this.props.map
     var farmacie = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 5"},"geometry":{"type":"Point","coordinates":[10.832991600036621,45.43372583298752]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 3"},"geometry":{"type":"Point","coordinates":[10.855522155761719,45.416286468478475]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 4"},"geometry":{"type":"Point","coordinates":[10.783424377441406,45.42086519967432]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia1"},"geometry":{"type":"Point","coordinates":[10.99658489227295,45.44691472640307]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 2"},"geometry":{"type":"Point","coordinates":[10.987358093261719,45.44730613046779]}}]};
@@ -109,7 +109,7 @@ export class Map extends Component {
       <LayersControl.Overlay name="experiment">
 
       <WMSTileLayer
-      url="http://192.168.20.20:8080/geoserver/circoscrizioni/wms?scrizioni&bbox=10.877110481262207%2C45.3494987487793%2C11.12392807006836%2C45.54174041748047&srs=EPSG%3A404000"
+      url="http://192.168.20.48:8080/geoserver/circoscrizioni/wms?scrizioni&bbox=10.877110481262207%2C45.3494987487793%2C11.12392807006836%2C45.54174041748047&srs=EPSG%3A404000"
       format="image"
       service="WMS"
       request="GetMap"
