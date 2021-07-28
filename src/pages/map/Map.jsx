@@ -24,7 +24,6 @@ import LocationMarkers from '../../components/location/LocationMarkers'
 
 //import axios from 'axios'
 
-//import circoscrizioni from '../../data/circoscrizioni.json'
 import quartieri from '../../data/quartieri.json'
 import farmacie from '../../data/farmacie.json'
 import scuole from '../../data/scuole.json'
@@ -37,9 +36,24 @@ import sostaVietata from '../../data/sostaVietata.json'
 export class Map extends Component {
   state = {
     mapContainer: false,
+    circoscrizioni: {},
   }
 
   componentDidMount() {
+    fetch('http://192.168.20.63:5000/get/circoscrizioni', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Success:', data);
+      this.setState({circoscrizioni : data})
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
     if (this.state.mapContainer) return
 
     setTimeout(() => {
@@ -83,21 +97,6 @@ export class Map extends Component {
 
   render() {
     const { center, zoom } = this.props.map
-    var circoscrizioni={};
-    fetch('http://192.168.20.63:5000/get/circoscrizioni', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-
     //var farmacie = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 5"},"geometry":{"type":"Point","coordinates":[10.832991600036621,45.43372583298752]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 3"},"geometry":{"type":"Point","coordinates":[10.855522155761719,45.416286468478475]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 4"},"geometry":{"type":"Point","coordinates":[10.783424377441406,45.42086519967432]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia1"},"geometry":{"type":"Point","coordinates":[10.99658489227295,45.44691472640307]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 2"},"geometry":{"type":"Point","coordinates":[10.987358093261719,45.44730613046779]}}]};
     return (
       <IonPage>
@@ -139,7 +138,7 @@ export class Map extends Component {
       </LayersControl.Overlay>
 
       <LayersControl.Overlay name="Circoscrizioni">
-      <GeoJSON key='circoscrizioni' data={circoscrizioni.features} onEachFeature={this.OnEachCircoscrizione} />
+      <GeoJSON key='circoscrizioni' data={this.state.circoscrizioni.features} onEachFeature={this.OnEachCircoscrizione} />
       </LayersControl.Overlay>
 
       <LayersControl.Overlay name="Quartieri">
