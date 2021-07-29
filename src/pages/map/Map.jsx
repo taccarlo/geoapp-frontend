@@ -138,7 +138,7 @@ export class Map extends Component {
               <Marker position={[45.438351, 10.99171]}>
                 <Popup>Verona</Popup>
               </Marker>
-              <LocationMarkers />
+              <LocationMarkers myloc={this.state.farmacie.features}/>
             </MapContainer>
           )}
         </IonContent>

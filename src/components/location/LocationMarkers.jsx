@@ -25,24 +25,24 @@ const locationConfig = {
   },
 }
 
-
-export const LocationList = ({ locations, showLocationModal }) => {
+/*
+*/
+export const LocationList = ({ myloc, locations, showLocationModal }) => {
 
   return (
     <div>
-      {locations.length &&
-        locations.map(loc => (
+      {myloc &&
+        myloc.length &&
+        myloc.map(loc => (
           <Marker
             key={loc.id}
-            position={[loc.lat, loc.lng]}
+            position={[loc.geometry.coordinates[1], loc.geometry.coordinates[0]]}
             eventHandlers={{
-              click: () => showLocationModal({locationClicked:loc}),
+              click: () => console.log("ciao")//showLocationModal({locationClicked:loc}),
             }}
-            icon={locationConfig[loc.category.denominazione].icon}
+            icon={locationConfig["farmacia"].icon}
           >
-            <Popup>
-              <Location location={loc} />
-            </Popup>
+           
           </Marker>
         ))}
     </div>
