@@ -18,7 +18,6 @@ import {
   GeoJSON,
   LayersControl,
 } from 'react-leaflet'
-import L from 'leaflet'
 
 import farmacia from '../../assets/icons/locations/farmacia.svg'
 
@@ -29,12 +28,6 @@ import circoscrizioni from '../../data/circoscrizioni.json'
 
 import LocationMarkers from '../../components/location/LocationMarkers'
 
-const farmaciaIcon = L.icon({
-  iconUrl: farmacia,
-  iconSize: [30, 30],
-})
-
-
 //var urlCircoscrizioni= "http://192.168.20.20:8080/geoserver/circoscrizioni/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=circoscrizioni%3Acircoscrizioni&maxFeatures=50&outputFormat=application%2Fjson";
 
 export class Map extends Component {
@@ -42,9 +35,11 @@ export class Map extends Component {
     mapContainer: false,
     farmacie:{},
   }
+  
 
   componentDidMount() {
     this.GetFarmacie();
+
     if (this.state.mapContainer) return
 
     setTimeout(() => {
@@ -138,7 +133,7 @@ export class Map extends Component {
               <Marker position={[45.438351, 10.99171]}>
                 <Popup>Verona</Popup>
               </Marker>
-              <LocationMarkers />
+              <LocationMarkers farmacie={this.state.farmacie.features}/>
             </MapContainer>
           )}
         </IonContent>

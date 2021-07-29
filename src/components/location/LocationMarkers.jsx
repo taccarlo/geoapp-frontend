@@ -6,6 +6,7 @@ import parco from '../../assets/icons/locations/parco.svg'
 import farmacia from '../../assets/icons/locations/farmacia.svg'
 import Location from './Location'
 import { showLocationModal } from '../../redux/actions'
+
 const parcoIcon = L.icon({
   iconUrl: parco,
   iconSize: [30, 30],
@@ -26,11 +27,12 @@ const locationConfig = {
 }
 
 
-export const LocationList = ({ locations, showLocationModal }) => {
-
+export const LocationList = ({farmacie, locations, showLocationModal}) => {
+  console.log(farmacie);
+  console.log(locations);
   return (
     <div>
-      {locations.length &&
+      {farmacie.length &&
         locations.map(loc => (
           <Marker
             key={loc.id}
@@ -38,7 +40,7 @@ export const LocationList = ({ locations, showLocationModal }) => {
             eventHandlers={{
               click: () => showLocationModal({locationClicked:loc}),
             }}
-            icon={locationConfig[loc.category.denominazione].icon}
+            icon={locationConfig[farmacia].icon}
           >
             <Popup>
               <Location location={loc} />
