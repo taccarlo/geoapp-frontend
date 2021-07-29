@@ -62,15 +62,10 @@ export class Map extends Component {
 
     
     const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'crossdomain': 'true',
-        'Content-Type':'application/x-www-form-urlencoded',
-        "Access-Control-Allow-Credentials": "true",
-        "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
-        "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers"
-    };
+        'crossdomain': 'true'
+      };
 
-    axios.get("http://192.168.20.48:8080/geoserver/geoapp/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geoapp%3Asigi%20180%20scuole&maxFeatures=50&outputFormat=application%2Fjson", { headers }).then(response => console.log(response));
+    axios.get("http://192.168.20.20:8080/geoserver/geoapp/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=geoapp%3Asigi%20180%20scuole&maxFeatures=50&outputFormat=application%2Fjson", { headers }).then(response => console.log(response));
     
     //axios.get("https://api.npms.io/v2/search?q=react", { headers }).then(response => console.log(response));
 
@@ -109,7 +104,7 @@ export class Map extends Component {
       <LayersControl.Overlay name="experiment">
 
       <WMSTileLayer
-      url="http://192.168.20.48:8080/geoserver/circoscrizioni/wms?scrizioni&bbox=10.877110481262207%2C45.3494987487793%2C11.12392807006836%2C45.54174041748047&srs=EPSG%3A404000"
+      url="http://192.168.20.20:8080/geoserver/circoscrizioni/wms?scrizioni&bbox=10.877110481262207%2C45.3494987487793%2C11.12392807006836%2C45.54174041748047&srs=EPSG%3A404000"
       format="image"
       service="WMS"
       request="GetMap"
