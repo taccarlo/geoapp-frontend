@@ -7,6 +7,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react'
+
 import {
   MapContainer,
   TileLayer,
@@ -17,70 +18,38 @@ import {
   GeoJSON,
   LayersControl,
 } from 'react-leaflet'
+import L from 'leaflet'
+
+import farmacia from '../../assets/icons/locations/farmacia.svg'
 
 import classes from './Map.module.css'
 
+
+import circoscrizioni from '../../data/circoscrizioni.json'
+
 import LocationMarkers from '../../components/location/LocationMarkers'
+
+const farmaciaIcon = L.icon({
+  iconUrl: farmacia,
+  iconSize: [30, 30],
+})
+
 
 //var urlCircoscrizioni= "http://192.168.20.20:8080/geoserver/circoscrizioni/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=circoscrizioni%3Acircoscrizioni&maxFeatures=50&outputFormat=application%2Fjson";
 
 export class Map extends Component {
   state = {
     mapContainer: false,
-    circoscrizioni: {},
     farmacie:{},
-    nuoveZone30:{},
-    parcheggiDedicati:{},
-    parchiPoligoni:{},
-    parchiPunti:{},
-    popolazioneResidente:{},
-    puntiDiInteresse: {},
-    quartieri: {},
-    scuole:{},
-    sostaVietata:{},
-    strade30:{},
-    zone30:{},
-    ztl :{},
   }
 
   componentDidMount() {
-    //this.GetCircoscrizioni();
-    //this.GetFarmacie();
-    //this.GetNuoveZone30();
-    //this.GetParcheggiDedicati();
-    ////this.GetParchiPoligoni();
-    //this.GetParchiPunti();
-    //this.GetPopolazioneResidente();
-    ////this.GetPuntiDiInteresse();
-    //this.GetQuartieri();
-    //this.GetScuole();
-    //this.GetSostaVietata();
-    //this.GetStrade30();
-    //this.GetZone30();
-    //this.GetZtl();
-
+    this.GetFarmacie();
     if (this.state.mapContainer) return
 
     setTimeout(() => {
       this.setState({ mapContainer: true })
     }, 500)
-  }
-//GET METHODS
-  GetCircoscrizioni() {
-    fetch('http://192.168.20.63:5000/get/circoscrizioni', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({circoscrizioni : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
   }
 
   GetFarmacie(){
@@ -100,210 +69,6 @@ export class Map extends Component {
     });
   }
 
-  GetNuoveZone30(){
-    fetch('http://192.168.20.63:5000/get/nuoveZone30', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({nuoveZone30 : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetParcheggiDedicati(){
-    fetch('http://192.168.20.63:5000/get/parcheggiDedicati', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({parcheggiDedicati : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetParchiPoligoni(){
-    fetch('http://192.168.20.63:5000/get/parchiPoligoni', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({parchiPoligoni : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetParchiPunti(){
-    fetch('http://192.168.20.63:5000/get/parchiPunti', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({parchiPunti : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetPopolazioneResidente(){
-    fetch('http://192.168.20.63:5000/get/popolazioneResidente', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({popolazioneResidente : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetPuntiDiInteresse(){
-    fetch('http://192.168.20.63:5000/get/puntiDiInteresse', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({puntiDiInteresse : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetQuartieri(){
-    fetch('http://192.168.20.63:5000/get/quartieri', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({quartieri : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetScuole(){
-    fetch('http://192.168.20.63:5000/get/scuole', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({scuole : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetSostaVietata(){
-    fetch('http://192.168.20.63:5000/get/sostaVietata', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({sostaVietata : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetStrade30(){
-    fetch('http://192.168.20.63:5000/get/strade30', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({strade30 : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetZone30(){
-    fetch('http://192.168.20.63:5000/get/zone30', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({zone30 : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
-  GetZtl(){
-    fetch('http://192.168.20.63:5000/get/ztl', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Success:', data);
-      this.setState({ztl : data})
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-
   //ON EACH METHODS
   OnEachCircoscrizione = (paese, layer) =>{
     layer.bindPopup(paese.properties.circoscriz)
@@ -317,54 +82,6 @@ export class Map extends Component {
 
   OnEachFarmacia = (farmacia, layer) =>{
     layer.bindPopup(farmacia.properties.denominazi)
-  }
-
-  OnEachNuovaZona30 = (nuovaZona30, layer) =>{
-    layer.bindPopup(nuovaZona30.properties.nome)
-  }
-
-  OnEachParcheggioDedicato = (parcheggioDedicato, layer) =>{
-    layer.bindPopup(parcheggioDedicato.properties.nome)
-  }
-
-  OnEachParcoPoligono = (parcoPoligono, layer) =>{
-    layer.bindPopup(parcoPoligono.properties.denominazi)
-  }
-
-  OnEachParcoPunto = (parcoPunto, layer) =>{
-    layer.bindPopup(parcoPunto.properties.denominazi)
-  }
-
-  OnEachPopolazioneResidente = (popolazioneResidente, layer) =>{
-    layer.bindPopup(popolazioneResidente.properties.indirizzo)
-  }
-
-  OnEachPuntoDiInteresse = (poi, layer) =>{
-    layer.bindPopup(poi.properties.nome)
-  }
-
-  OnEachQuartiere = (quartiere, layer) =>{
-    layer.bindPopup(quartiere.properties.quartiere)
-  }
-
-  OnEachScuola = (scuola, layer) =>{
-    layer.bindPopup(scuola.properties.nome_scuol)
-  }
-
-  OnEachSostaVietata = (sostaVietata, layer) =>{
-    layer.bindPopup(sostaVietata.properties.nome)
-  }
-
-  OnEachStrada30 = (strada30, layer) =>{
-    layer.bindPopup(strada30.properties.nome)
-  }
-
-  OnEachZona30 = (zona30, layer) =>{
-    layer.bindPopup(zona30.properties.nome)
-  }
-
-  OnEachZTL = (ztl, layer) =>{
-    layer.bindPopup(ztl.properties.nome)
   }
 
   render() {
@@ -399,70 +116,12 @@ export class Map extends Component {
         />
       </LayersControl.BaseLayer>
 
-      <LayersControl.Overlay name="Confini">
-
-      <WMSTileLayer
-      layers='OSM-Overlay-WMS'
-      url="http://ows.mundialis.de/services/service?"
-      transparent='true'
-      />
-
-      </LayersControl.Overlay>
-
       <LayersControl.Overlay name="Circoscrizioni">
-      <GeoJSON key='Circoscrizioni' data={this.state.circoscrizioni.features} onEachFeature={this.OnEachCircoscrizione} />
+      <GeoJSON key='Circoscrizioni' data={circoscrizioni.features} onEachFeature={this.OnEachCircoscrizione} />
       </LayersControl.Overlay>
 
       <LayersControl.Overlay name="Farmacie">
       <GeoJSON key='Farmacie' data={this.state.farmacie.features} onEachFeature={this.OnEachFarmacia} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Nuove Zone 30">
-      <GeoJSON key='Nuove Zone 30' data={this.state.nuoveZone30.features} onEachFeature={this.OnEachNuovaZona30} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Quartieri">
-      <GeoJSON key='Quartieri' data={this.state.quartieri.features} onEachFeature={this.OnEachQuartiere} />
-      </LayersControl.Overlay>
-      
-      <LayersControl.Overlay name="Parcheggi Dedicati">
-      <GeoJSON key='Parcheggi Dedicati' data={this.state.parcheggiDedicati.features} onEachFeature={this.OnEachParcheggioDedicato} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name=" NW Parchi Poligoni">
-      <GeoJSON key='Parchi Poligoni' data={this.state.parchiPoligoni.features} onEachFeature={this.OnEachParcoPoligono} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name=" Parchi Punti">
-      <GeoJSON key='Parchi Punti' data={this.state.parchiPunti.features} onEachFeature={this.OnEachParcoPunto} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name=" Popolazione Residente">
-      <GeoJSON key='Popolazione Residente' data={this.state.popolazioneResidente.features} onEachFeature={this.OnEachPopolazioneResidente} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="NW Punti Di Interesse">
-      <GeoJSON key='Punti Di Interesse' data={this.state.puntiDiInteresse.features} onEachFeature={this.OnEachPuntoDiInteresse} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Scuole">
-      <GeoJSON key='Scuole' data={this.state.scuole.features} onEachFeature={this.OnEachScuola} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Sosta Vietata">
-      <GeoJSON key='Sosta Vietata' data={this.state.sostaVietata.features} onEachFeature={this.OnEachSostaVietata} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Strade 30">
-      <GeoJSON key='Strade 30' data={this.state.strade30.features} onEachFeature={this.OnEachStrada30} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Zone 30">
-      <GeoJSON key='Zone 30' data={this.state.zone30.features} onEachFeature={this.OnEachZona30} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="ZTL">
-      <GeoJSON key='ZTL' data={this.state.ztl.features} onEachFeature={this.OnEachZTL} />
       </LayersControl.Overlay>
 
     </LayersControl>  
