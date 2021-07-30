@@ -3,14 +3,13 @@ import {
   FETCH_CATEGORIES_PENDING,
   FETCH_CATEGORIES_FAILED,
 } from './types'
-import strapi from '../../api/strapi'
 
 export const fetchCategories = () => async dispatch => {
   dispatch({
     type: FETCH_CATEGORIES_PENDING,
   })
   try {
-    const res = await strapi.get('/categories')
+    const res = {}
     dispatch({
       type: FETCH_CATEGORIES_SUCCESS,
       payload: res.data,
