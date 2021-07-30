@@ -1,6 +1,4 @@
 import { FETCH_LOCATIONS, CLEAR_LOCATIONS } from './types'
-import strapi from '../../api/strapi'
-
 export const fetchLocations =
   (categoryIds = []) =>
   async (dispatch, getState) => {
@@ -12,7 +10,7 @@ export const fetchLocations =
       }
     }
 
-    const res = await strapi.get(url)
+    const res = {}
     dispatch({
       type: FETCH_LOCATIONS,
       payload: res.data,

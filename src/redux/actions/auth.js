@@ -1,9 +1,8 @@
-import strapi from '../../api/strapi'
 import { AUTH_ERROR, AUTH_USER } from './types'
 
 export const register = formData => async dispatch => {
   try {
-    const res = await strapi.post('/auth/local/register', formData)
+    const res = {}
     dispatch({
       type: AUTH_USER,
       payload: res.data,
@@ -19,7 +18,7 @@ export const register = formData => async dispatch => {
 
 export const login = formData => async dispatch => {
   try {
-    const res = await strapi.post('/auth/local', formData)
+    const res = {}
     dispatch({
       type: AUTH_USER,
       payload: res.data,
