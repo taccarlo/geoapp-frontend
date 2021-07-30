@@ -22,7 +22,8 @@ import classes from './Map.module.css'
 
 import LocationMarkers from '../../components/location/LocationMarkers'
 
-//var urlCircoscrizioni= "http://192.168.20.20:8080/geoserver/circoscrizioni/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=circoscrizioni%3Acircoscrizioni&maxFeatures=50&outputFormat=application%2Fjson";
+const url='http://192.168.20.63:5000';
+
 
 export class Map extends Component {
   state = {
@@ -43,12 +44,21 @@ export class Map extends Component {
     ztl :{},
   }
 
+  constructor() {
+    super();
+    this.geoJsonLayer = React.createRef();
+    console.log(this.geoJsonLayer.current);
+}
+
+  
+  
+
   componentDidMount() {
     //this.GetCircoscrizioni();
     //this.GetFarmacie();
     //this.GetNuoveZone30();
     //this.GetParcheggiDedicati();
-    ////this.GetParchiPoligoni();
+    //this.GetParchiPoligoni();
     //this.GetParchiPunti();
     //this.GetPopolazioneResidente();
     ////this.GetPuntiDiInteresse();
@@ -67,7 +77,7 @@ export class Map extends Component {
   }
 //GET METHODS
   GetCircoscrizioni() {
-    fetch('http://192.168.20.63:5000/get/circoscrizioni', {
+    fetch(url+'/get/circoscrizioni', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -84,7 +94,7 @@ export class Map extends Component {
   }
 
   GetFarmacie(){
-    fetch('http://192.168.20.63:5000/get/farmacie', {
+    fetch(url+'/get/farmacie', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -101,7 +111,7 @@ export class Map extends Component {
   }
 
   GetNuoveZone30(){
-    fetch('http://192.168.20.63:5000/get/nuoveZone30', {
+    fetch(url+'/get/nuoveZone30', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +128,7 @@ export class Map extends Component {
   }
 
   GetParcheggiDedicati(){
-    fetch('http://192.168.20.63:5000/get/parcheggiDedicati', {
+    fetch(url+'/get/parcheggiDedicati', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -135,7 +145,7 @@ export class Map extends Component {
   }
 
   GetParchiPoligoni(){
-    fetch('http://192.168.20.63:5000/get/parchiPoligoni', {
+    fetch(url+'/get/parchiPoligoni', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -152,7 +162,7 @@ export class Map extends Component {
   }
 
   GetParchiPunti(){
-    fetch('http://192.168.20.63:5000/get/parchiPunti', {
+    fetch(url+'/get/parchiPunti', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -169,7 +179,7 @@ export class Map extends Component {
   }
 
   GetPopolazioneResidente(){
-    fetch('http://192.168.20.63:5000/get/popolazioneResidente', {
+    fetch(url+'/get/popolazioneResidente', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -186,7 +196,7 @@ export class Map extends Component {
   }
 
   GetPuntiDiInteresse(){
-    fetch('http://192.168.20.63:5000/get/puntiDiInteresse', {
+    fetch(url+'/get/puntiDiInteresse', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -203,7 +213,7 @@ export class Map extends Component {
   }
 
   GetQuartieri(){
-    fetch('http://192.168.20.63:5000/get/quartieri', {
+    fetch(url+'/get/quartieri', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -220,7 +230,7 @@ export class Map extends Component {
   }
 
   GetScuole(){
-    fetch('http://192.168.20.63:5000/get/scuole', {
+    fetch(url+'/get/scuole', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -237,7 +247,7 @@ export class Map extends Component {
   }
 
   GetSostaVietata(){
-    fetch('http://192.168.20.63:5000/get/sostaVietata', {
+    fetch(url+'/get/sostaVietata', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -254,7 +264,7 @@ export class Map extends Component {
   }
 
   GetStrade30(){
-    fetch('http://192.168.20.63:5000/get/strade30', {
+    fetch(url+'/get/strade30', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -271,7 +281,7 @@ export class Map extends Component {
   }
 
   GetZone30(){
-    fetch('http://192.168.20.63:5000/get/zone30', {
+    fetch(url+'/get/zone30', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -288,7 +298,7 @@ export class Map extends Component {
   }
 
   GetZtl(){
-    fetch('http://192.168.20.63:5000/get/ztl', {
+    fetch(url+'/get/ztl', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -410,7 +420,7 @@ export class Map extends Component {
       </LayersControl.Overlay>
 
       <LayersControl.Overlay name="Circoscrizioni">
-      <GeoJSON key='Circoscrizioni' data={this.state.circoscrizioni.features} onEachFeature={this.OnEachCircoscrizione} />
+        <GeoJSON key='Circoscrizioni' data={this.state.circoscrizioni.features} onEachFeature={this.OnEachCircoscrizione} />
       </LayersControl.Overlay>
 
       <LayersControl.Overlay name="Farmacie">
@@ -424,7 +434,7 @@ export class Map extends Component {
       <LayersControl.Overlay name="Quartieri">
       <GeoJSON key='Quartieri' data={this.state.quartieri.features} onEachFeature={this.OnEachQuartiere} />
       </LayersControl.Overlay>
-      
+
       <LayersControl.Overlay name="Parcheggi Dedicati">
       <GeoJSON key='Parcheggi Dedicati' data={this.state.parcheggiDedicati.features} onEachFeature={this.OnEachParcheggioDedicato} />
       </LayersControl.Overlay>
