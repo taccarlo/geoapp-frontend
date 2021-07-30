@@ -13,37 +13,30 @@ import {
   TileLayer,
   Marker,
   Popup,
-  WMSTileLayer,
   MapConsumer,
-  GeoJSON,
   LayersControl,
 } from 'react-leaflet'
-import L from 'leaflet'
-
-import farmacia from '../../assets/icons/locations/farmacia.svg'
 
 import classes from './Map.module.css'
 
-
-import circoscrizioni from '../../data/circoscrizioni.json'
-
 import LocationMarkers from '../../components/location/LocationMarkers'
 
-const farmaciaIcon = L.icon({
-  iconUrl: farmacia,
-  iconSize: [30, 30],
-})
+import { Geolocation } from '@capacitor/geolocation'
 
-
-//var urlCircoscrizioni= "http://192.168.20.20:8080/geoserver/circoscrizioni/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=circoscrizioni%3Acircoscrizioni&maxFeatures=50&outputFormat=application%2Fjson";
+const url='http://3.142.202.105:7484'
 
 export class Map extends Component {
   state = {
     mapContainer: false,
     farmacie:{},
+    latPos: null,
+    longPos: null,
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    const res = await Geolocation.getCurrentPosition()
+    this.latPos=res.coords.latitude;
+    this.longPos=res.coords.longitude;
     this.GetFarmacie();
     if (this.state.mapContainer) return
 
@@ -53,7 +46,7 @@ export class Map extends Component {
   }
 
   GetFarmacie(){
-    fetch('http://192.168.20.63:5000/get/farmacie', {
+    fetch(url+'/get/farmacie', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -70,23 +63,12 @@ export class Map extends Component {
   }
 
   //ON EACH METHODS
-  OnEachCircoscrizione = (paese, layer) =>{
-    layer.bindPopup(paese.properties.circoscriz)
-
-    layer.on({
-      click: (event) =>{
-        console.log("click on "+paese.properties.circoscriz)
-      }
-    })
-  }
-
   OnEachFarmacia = (farmacia, layer) =>{
     layer.bindPopup(farmacia.properties.denominazi)
   }
 
   render() {
     const { center, zoom } = this.props.map
-    //var farmacie = {"type":"FeatureCollection","features":[{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 5"},"geometry":{"type":"Point","coordinates":[10.832991600036621,45.43372583298752]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 3"},"geometry":{"type":"Point","coordinates":[10.855522155761719,45.416286468478475]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 4"},"geometry":{"type":"Point","coordinates":[10.783424377441406,45.42086519967432]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia1"},"geometry":{"type":"Point","coordinates":[10.99658489227295,45.44691472640307]}},{"type":"Feature","properties":{"marker-color":"#7e7e7e","marker-size":"medium","marker-symbol":"","nome":"Farmacia 2"},"geometry":{"type":"Point","coordinates":[10.987358093261719,45.44730613046779]}}]};
     return (
       <IonPage>
         <IonHeader>
@@ -116,14 +98,6 @@ export class Map extends Component {
         />
       </LayersControl.BaseLayer>
 
-      <LayersControl.Overlay name="Circoscrizioni">
-      <GeoJSON key='Circoscrizioni' data={circoscrizioni.features} onEachFeature={this.OnEachCircoscrizione} />
-      </LayersControl.Overlay>
-
-      <LayersControl.Overlay name="Farmacie">
-      <GeoJSON key='Farmacie' data={this.state.farmacie.features} onEachFeature={this.OnEachFarmacia} />
-      </LayersControl.Overlay>
-
     </LayersControl>  
               <TileLayer
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -135,8 +109,8 @@ export class Map extends Component {
                   return null
                 }}
               </MapConsumer>
-              <Marker position={[45.438351, 10.99171]}>
-                <Popup>Verona</Popup>
+              <Marker position={[this.latPos, this.longPos]}>
+                <Popup>You Are Here</Popup>
               </Marker>
               <LocationMarkers myloc={this.state.farmacie.features}/>
             </MapContainer>

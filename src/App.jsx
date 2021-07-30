@@ -11,17 +11,9 @@ import {
 import { IonReactRouter } from '@ionic/react-router'
 import {
   mapOutline,
-  location,
-  arrowUpOutline,
-  addCircleOutline,
-  searchOutline,
 } from 'ionicons/icons'
 
 import Map from './pages/map/Map'
-import Search from './pages/search/Search'
-import District from './pages/district/District'
-import Category from './pages/category/Category'
-import Contribute from './pages/contribute/Contribute'
 import { fetchCategories, fetchDistricts } from './redux/actions'
 import { connect } from 'react-redux'
 
@@ -51,10 +43,6 @@ const App = ({ fetchDistricts, fetchCategories }) => {
         <IonTabs>
           <IonRouterOutlet>
             <Route path="/map" component={Map} />
-            <Route path="/search" component={Search} />
-            <Route path="/districts" component={District} />
-            <Route path="/categories" component={Category} />
-            <Route path="/contribute" component={Contribute} />
             <Route path="/" exact render={() => <Redirect to="/map" />} />
           </IonRouterOutlet>
 
@@ -62,26 +50,6 @@ const App = ({ fetchDistricts, fetchCategories }) => {
             <IonTabButton tab="map" href="/map">
               <IonIcon icon={mapOutline} />
               <IonLabel>Map</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="search" href="/search">
-              <IonIcon icon={searchOutline} />
-              <IonLabel>Search</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="districts" href="/districts">
-              <IonIcon icon={location} />
-              <IonLabel>Districts</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="categories" href="/categories">
-              <IonIcon icon={arrowUpOutline} />
-              <IonLabel>Categories</IonLabel>
-            </IonTabButton>
-
-            <IonTabButton tab="contribute" href="/contribute">
-              <IonIcon icon={addCircleOutline} />
-              <IonLabel>Contribute</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

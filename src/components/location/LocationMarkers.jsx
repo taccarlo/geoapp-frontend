@@ -2,14 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Marker, Popup } from 'react-leaflet'
 import L from 'leaflet'
-import parco from '../../assets/icons/locations/parco.svg'
 import farmacia from '../../assets/icons/locations/farmacia.svg'
 import Location from './Location'
 import { showLocationModal } from '../../redux/actions'
-const parcoIcon = L.icon({
-  iconUrl: parco,
-  iconSize: [30, 30],
-})
 
 const farmaciaIcon = L.icon({
   iconUrl: farmacia,
@@ -17,9 +12,6 @@ const farmaciaIcon = L.icon({
 })
 
 const locationConfig = {
-  parco: {
-    icon: parcoIcon,
-  },
   farmacia: {
     icon: farmaciaIcon,
   },
