@@ -25,8 +25,6 @@ const locationConfig = {
   },
 }
 
-/*
-*/
 export const LocationList = ({ myloc, locations, showLocationModal }) => {
 
   return (
@@ -42,6 +40,9 @@ export const LocationList = ({ myloc, locations, showLocationModal }) => {
             }}
             icon={locationConfig["farmacia"].icon}
           >
+            <Popup>
+              <Location location={loc.properties}/>
+            </Popup>
            
           </Marker>
         ))}

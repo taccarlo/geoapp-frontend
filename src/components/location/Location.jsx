@@ -4,7 +4,8 @@ import React from 'react'
 const Location = ({ location }) => {
   return (
     <div>
-      <h3>{location.denominazione}</h3>
+      <h3>{"Nome: "+location.denominazi}</h3>
+      <h3>{"Indirizzo: "+location.indirizzo}</h3>    
     </div>
   )
 }
