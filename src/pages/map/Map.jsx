@@ -23,6 +23,7 @@ import LocationMarkers from '../../components/location/LocationMarkers'
 
 import { Geolocation } from '@capacitor/geolocation'
 
+//const url='http://192.168.20.63:7484'
 const url='http://3.142.202.105:7484'
 
 export class Map extends Component {
@@ -37,7 +38,8 @@ export class Map extends Component {
     const res = await Geolocation.getCurrentPosition()
     this.latPos=res.coords.latitude;
     this.longPos=res.coords.longitude;
-    this.GetCircoscrizioni();
+    //this.GetCircoscrizioni();
+    this.GetPopolazionePerCircoscrizione();
     if (this.state.mapContainer) return
 
     setTimeout(() => {
@@ -47,6 +49,30 @@ export class Map extends Component {
 
   GetCircoscrizioni(){
     fetch(url+'/get/circoscrizioni', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      var appoggio = 0
+      for (let j=0; j<data.features.length; j++){
+        for (let i = 0; i<data.features[j].geometry.coordinates[0][0].length; i++){
+          appoggio = data.features[j].geometry.coordinates[0][0][i][1]
+          data.features[j].geometry.coordinates[0][0][i][1] = data.features[j].geometry.coordinates[0][0][i][0]
+          data.features[j].geometry.coordinates[0][0][i][0] = appoggio
+        }
+    }
+      this.setState({circoscrizioni : data})
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+
+  GetPopolazionePerCircoscrizione(){
+    fetch(url+'/get/popolazioneResidentePerCircoscrizione', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
