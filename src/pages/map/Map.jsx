@@ -28,7 +28,7 @@ const url='http://3.142.202.105:7484'
 export class Map extends Component {
   state = {
     mapContainer: false,
-    farmacie:{},
+    circoscrizioni:{},
     latPos: null,
     longPos: null,
   }
@@ -37,7 +37,7 @@ export class Map extends Component {
     const res = await Geolocation.getCurrentPosition()
     this.latPos=res.coords.latitude;
     this.longPos=res.coords.longitude;
-    this.GetFarmacie();
+    this.GetCircoscrizioni();
     if (this.state.mapContainer) return
 
     setTimeout(() => {
@@ -45,8 +45,8 @@ export class Map extends Component {
     }, 500)
   }
 
-  GetFarmacie(){
-    fetch(url+'/get/farmacie', {
+  GetCircoscrizioni(){
+    fetch(url+'/get/circoscrizioni', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -54,17 +54,19 @@ export class Map extends Component {
     })
     .then(response => response.json())
     .then(data => {
-      console.log('Success:', data);
-      this.setState({farmacie : data})
+      var appoggio = 0
+      for (let j=0; j<data.features.length; j++){
+        for (let i = 0; i<data.features[j].geometry.coordinates[0][0].length; i++){
+          appoggio = data.features[j].geometry.coordinates[0][0][i][1]
+          data.features[j].geometry.coordinates[0][0][i][1] = data.features[j].geometry.coordinates[0][0][i][0]
+          data.features[j].geometry.coordinates[0][0][i][0] = appoggio
+        }
+    }
+      this.setState({circoscrizioni : data})
     })
     .catch((error) => {
       console.error('Error:', error);
     });
-  }
-
-  //ON EACH METHODS
-  OnEachFarmacia = (farmacia, layer) =>{
-    layer.bindPopup(farmacia.properties.denominazi)
   }
 
   render() {
@@ -81,7 +83,7 @@ export class Map extends Component {
           {this.state.mapContainer && (
             <MapContainer
               className={classes.mapContainer}
-              center={center}
+              center={[this.latPos, this.longPos]}
               zoom={zoom}
             >
               <LayersControl position="topright">
@@ -105,14 +107,14 @@ export class Map extends Component {
               />
               <MapConsumer>
                 {map => {
-                  map.setView(center)
+                  map.setView([this.latPos, this.longPos])
                   return null
                 }}
               </MapConsumer>
               <Marker position={[this.latPos, this.longPos]}>
-                <Popup>You Are Here</Popup>
+                <Popup>YOU</Popup>
               </Marker>
-              <LocationMarkers myloc={this.state.farmacie.features}/>
+              <LocationMarkers myloc={this.state.circoscrizioni.features}/>
             </MapContainer>
           )}
         </IonContent>
